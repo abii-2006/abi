@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CCMS Dashboard</title>
+
+  <!-- ? Combined CSS -->
+  <style>
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Layout */
+    body {
+      display: flex;
+      min-height: 100vh;
+      background-color: #f3f4f6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #111827;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 1.5rem;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 2rem;
+      font-size: 1.4rem;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      width: 100%;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .sidebar ul li:hover,
+    .sidebar ul li.active {
+      background-color: #2563eb;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+    }
+
+    #time {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background-color: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      color: #2563eb;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    /* Activities */
+    .activities {
+      margin-top: 2.5rem;
+    }
+
+    .activities h2 {
+      margin-bottom: 1rem;
+    }
+
+    .activities table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .activities th,
+    .activities td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    .activities tr:hover {
+      background-color: #f9fafb;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+      }
+
+      .sidebar ul {
+        display: flex;
+        justify-content: space-around;
+      }
+      .main-content {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>CCMS</h2>
+    <ul>
+        <li class="active" onclick="switchSection('dashboard', this)">Dashboard</li>
+        <li onclick="switchSection('myEvents', this)">My Events</li>
+        <li onclick="switchSection('registerEvent', this)">Register Event</li>
+        <li onclick="switchSection('profile', this)">Profile</li>
+        <li onclick="switchSection('logout', this)">Logout</li>
+    </ul>
+</div>
+  <!-- Main Content -->
+  <div class="main-content">
+    <header>
+      <h1>Welcome, Student</h1>
+      <p id="time"></p>
+    </header>
+
+    <!-- Cards -->
+    <div class="cards">
+      <div class="card">
+        <h3>Total Events</h3>
+        <p>12</p>
+      </div>
+      <div class="card">
+        <h3>Participated</h3>
+        <p>5</p>
+      </div>
+      <div class="card">
+        <h3>Upcoming</h3>
+        <p>3</p>
+      </div>
+      <div class="card">
+        <h3>Certificates</h3>
+        <p>4</p>
+      </div>
+    </div>
+
+    <!-- Recent Activities -->
+    <section class="activities">
+      <h2>Recent Activities</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Event</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="activityTable">
+          <tr>
+            <td>Sports Day</td>
+            <td>2025-09-10</td>
+            <td>Participated</td>
+          </tr>
+          <tr>
+            <td>Coding Contest</td>
+            <td>2025-09-20</td>
+            <td>Registered</td>
+          </tr>
+          <tr>
+            <td>Art Workshop</td>
+            <td>2025-10-01</td>
+            <td>Upcoming</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+  <!-- ? JavaScript -->
+  <script>
+    // Display current time and update every second
+    function updateTime() {
+      const timeElement = document.getElementById("time");
+      const now = new Date();
+      const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+      timeElement.textContent =
+        now.toLocaleDateString("en-US", options) + " | " + now.toLocaleTimeString();
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
+</body>
+</html>
+<nav>
+    <a href="index.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="register.html">Register</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="logout.html">Logout</a>
+     <a href="manage events.html"Manage Event</a>
+</nav>
